@@ -1,0 +1,16 @@
+[package]
+name = "recently_use"
+version = "0.1.0"
+edition = "2021"
+authors = [ "Jade <jade@witchof.space>" ]
+description = "A simple utility that adds a file to gtk's recently used list"
+repository = "https://github.com/witchof0x20/recently_use"
+license = "GPL-3.0-only"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = {version="4", features=["derive"]}
+glib = "*"
+gtk = "0.16"
+thiserror = "1"
