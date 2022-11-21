@@ -1,5 +1,7 @@
 # recently_use
 
+THIS HAS STOPPED WORKING FOR SOME REASON. DO NOT RECOMMEND USING
+
 # Building
 ```sh
 cargo build
