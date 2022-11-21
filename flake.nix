@@ -42,7 +42,9 @@
           inherit nativeBuildInputs buildInputs;
           src = ./.;
         };
-
+        overlays.default = final: prev: {
+          recently_use = self.defaultPackage;
+        };
         devShell = pkgs.mkShell {
           inherit buildInputs;
           nativeBuildInputs = nativeBuildInputs ++ [
