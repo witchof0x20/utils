@@ -43,7 +43,7 @@
           src = ./.;
         };
         overlays.default = final: prev: {
-          recently_use = self.defaultPackage;
+          recently_use = self.defaultPackage."${system}";
         };
         devShell = pkgs.mkShell {
           inherit buildInputs;
