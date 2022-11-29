@@ -10,7 +10,6 @@
 use clap::Parser;
 use gtk::prelude::RecentManagerExt;
 use gtk::RecentManager;
-use std::ffi::OsString;
 use std::io;
 use std::path::PathBuf;
 use thiserror::Error;
