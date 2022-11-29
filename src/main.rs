@@ -32,8 +32,6 @@ enum MainError {
     Uri(glib::Error),
     #[error("Failed to initialize gtk: {0}")]
     GtkInit(glib::error::BoolError),
-    #[error("Failed to get handle on RecentManager")]
-    RecentManager,
     #[error("Failed to add item to RecentManager")]
     AddItem,
 }
@@ -47,15 +45,32 @@ fn main() -> Result<(), MainError> {
     }
     // Canonicalize the path
     let path = args.path.canonicalize().map_err(MainError::Canonicalize)?;
-    let uri = glib::filename_to_uri(path, None).map_err(MainError::Uri)?;
+    let uri = glib::filename_to_uri(&path, None).map_err(MainError::Uri)?;
     // Initialize gtk
     gtk::init().map_err(MainError::GtkInit)?;
     // Get a handle on the recent manager
     let recent_manager = RecentManager::new();
+    // Convert the path string to a file URI
     // Add the file to the recent manager
-    if recent_manager.add_item(&uri) {
+    let recent_data = RecentData {
+        display_name: path
+            .file_name()
+            .and_then(|os_str| os_str.to_str())
+            .map(String::from),
+        description: None,
+        mime_type: "application/octet-stream".into(),
+        app_name: clap::crate_name!().into(),
+        app_exec: "xdg-open %f".into(),
+        groups: Vec::new(),
+        is_private: false,
+    };
+    let res = if recent_manager.add_full(&uri, &recent_data) {
         Ok(())
     } else {
         Err(MainError::AddItem)
+    };
+    for i in recent_manager.items() {
+        dbg!(&i);
     }
+    res
 }
