@@ -1,6 +1,8 @@
 # recently_use
 
-THIS HAS STOPPED WORKING FOR SOME REASON. DO NOT RECOMMEND USING
+Adds a file to gtk's "recently used" list.
+## Bugs
+* Currently, a recently-used.xbel file needs to exist before this will add files to it
 
 # Building
 ```sh
