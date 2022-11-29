@@ -29,8 +29,8 @@ enum MainError {
     DoesNotExist,
     #[error("Error canonicalizing the given path: {0}")]
     Canonicalize(io::Error),
-    #[error("Failed to convert the given path ({0:?}) into a manageable string")]
-    PathString(OsString),
+    #[error("Failed to convert the given path into a URI: {0}")]
+    Uri(glib::Error),
     #[error("Failed to initialize gtk: {0}")]
     GtkInit(glib::error::BoolError),
     #[error("Failed to get handle on RecentManager")]
@@ -48,19 +48,14 @@ fn main() -> Result<(), MainError> {
     }
     // Canonicalize the path
     let path = args.path.canonicalize().map_err(MainError::Canonicalize)?;
-    // Convert path to a string
-    let path = path
-        .into_os_string()
-        .into_string()
-        .map_err(MainError::PathString)?;
+    let uri = glib::filename_to_uri(path, None).map_err(MainError::Uri)?;
     // Initialize gtk
     gtk::init().map_err(MainError::GtkInit)?;
     // Get a handle on the recent manager
     let recent_manager = RecentManager::default().ok_or(MainError::RecentManager)?;
     // Convert the path string to a file URI
-    let file_uri = format!("file://{}", path);
     // Add the file to the recent manager
-    if recent_manager.add_item(&file_uri) {
+    if recent_manager.add_item(&uri) {
         Ok(())
     } else {
         Err(MainError::AddItem)
