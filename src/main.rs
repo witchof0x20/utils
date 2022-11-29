@@ -9,7 +9,7 @@
 // You should have received a copy of the GNU General Public License along with recently_use. If not, see <https://www.gnu.org/licenses/>.
 use clap::Parser;
 use gtk::prelude::RecentManagerExt;
-use gtk::RecentManager;
+use gtk::{RecentData, RecentManager};
 use std::io;
 use std::path::PathBuf;
 use thiserror::Error;
@@ -51,8 +51,7 @@ fn main() -> Result<(), MainError> {
     // Initialize gtk
     gtk::init().map_err(MainError::GtkInit)?;
     // Get a handle on the recent manager
-    let recent_manager = RecentManager::default().ok_or(MainError::RecentManager)?;
-    // Convert the path string to a file URI
+    let recent_manager = RecentManager::new();
     // Add the file to the recent manager
     if recent_manager.add_item(&uri) {
         Ok(())
