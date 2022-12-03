@@ -64,13 +64,9 @@ fn main() -> Result<(), MainError> {
         groups: Vec::new(),
         is_private: false,
     };
-    let res = if recent_manager.add_full(&uri, &recent_data) {
+    if recent_manager.add_full(&uri, &recent_data) {
         Ok(())
     } else {
         Err(MainError::AddItem)
-    };
-    for i in recent_manager.items() {
-        dbg!(&i);
     }
-    res
 }
