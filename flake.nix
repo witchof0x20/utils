@@ -27,11 +27,6 @@
         };
       in
       rec {
-        overlays.default = final: prev: {
-          yaru = packages."${system}".yaru;
-          don = packages."${system}".don;
-          recently_use = packages."${system}".recently_use;
-        };
         packages = {
           recently_use = naersk'.buildPackage {
             nativeBuildInputs = [ pkgs.pkg-config ];
@@ -48,6 +43,11 @@
             buildInputs = [ ];
             src = ./don;
           };
+        };
+        overlays.default = final: prev: {
+          yaru = packages.yaru;
+          don = packages.don;
+          recently_use = packages.recently_use;
         };
 
         # TODO: pull in dependencies from the packages
