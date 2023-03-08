@@ -28,9 +28,9 @@
       in
       rec {
         overlays.default = final: prev: {
-          yaru = self.packages.yaru."${system}";
-          don = self.packages.don."${system}";
-          recently_use = self.packages.recently_use."${system}";
+          yaru = packages.yaru."${system}";
+          don = packages.don."${system}";
+          recently_use = packages.recently_use."${system}";
         };
         packages = {
           recently_use = naersk'.buildPackage {
