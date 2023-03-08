@@ -32,20 +32,22 @@
           don = self.packages.don."${system}";
           recently_use = self.packages.recently_use."${system}";
         };
-        packages.recently_use = naersk'.buildPackage {
-          nativeBuildInputs = [ pkgs.pkg-config ];
-          buildInputs = [ pkgs.gtk3 ];
-          src = ./recently_use;
-        };
-        packages.yaru = naersk'.buildPackage {
-          nativeBuildInputs = [ pkgs.pkg-config ];
-          buildInputs = [ pkgs.dbus ];
-          src = ./yaru;
-        };
-        packages.don = naersk'.buildPackage {
-          nativeBuildInputs = [ pkgs.pkg-config ];
-          buildInputs = [ ];
-          src = ./don;
+        packages = {
+          recently_use = naersk'.buildPackage {
+            nativeBuildInputs = [ pkgs.pkg-config ];
+            buildInputs = [ pkgs.gtk3 ];
+            src = ./recently_use;
+          };
+          yaru = naersk'.buildPackage {
+            nativeBuildInputs = [ pkgs.pkg-config ];
+            buildInputs = [ pkgs.dbus ];
+            src = ./yaru;
+          };
+          don = naersk'.buildPackage {
+            nativeBuildInputs = [ pkgs.pkg-config ];
+            buildInputs = [ ];
+            src = ./don;
+          };
         };
 
         # TODO: pull in dependencies from the packages
