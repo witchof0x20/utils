@@ -1,31 +1,8 @@
-# recently_use
+# Utils
+Just a bunch of tools I wrote to replace bash scripts
 
-Adds a file to gtk's "recently used" list.
-## Bugs
-* Currently, a recently-used.xbel file needs to exist before this will add files to it
+## Yaru
+Tool for doing stuff with profiles (like with ssh blocks)
 
-# Building
-```sh
-cargo build
-```
-or
-```sh
-nix build
-```
-
-# Running
-```
-cargo run -- /path/to/use/here
-```
-or
-```
-nix run /path/to/use/here
-```
-
-# Installing
-This program is available as a Nix Flake (TODO: flake install instructions)
-
-I don't usually do this, but you can probably
-```sh
-cargo install
-```
+## Don
+Sends discord webhook messages

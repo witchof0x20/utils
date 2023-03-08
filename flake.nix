@@ -1,15 +1,6 @@
-# Copyright 2022 witchof0x20
-# 
-# This file is part of recently_use.
-# 
-# recently_use is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
-# 
-# recently_use is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License along with recently_use. If not, see <https://www.gnu.org/licenses/>. 
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     flake-utils.url = "github:numtide/flake-utils";
     rust-overlay = {
       url = "github:oxalica/rust-overlay";
@@ -34,21 +25,30 @@
           rustc = rust_toolchain.minimal;
           cargo = rust_toolchain.minimal;
         };
-        nativeBuildInputs = [ pkgs.pkg-config ];
-        buildInputs = [ pkgs.gtk3 ];
       in
       rec {
-        defaultPackage = naersk'.buildPackage {
-          inherit nativeBuildInputs buildInputs;
-          src = ./.;
+        packages.yaru = naersk'.buildPackage {
+          nativeBuildInputs = [ pkgs.pkg-config ];
+          buildInputs = [ pkgs.dbus ];
+          src = ./yaru;
         };
-        overlays.default = final: prev: {
-          recently_use = self.defaultPackage."${system}";
+        packages.don = naersk'.buildPackage {
+          nativeBuildInputs = [ pkgs.pkg-config ];
+          buildInputs = [ ];
+          src = ./don;
         };
+        packages.recently_use = naersk'.buildPackage {
+          nativeBuildInputs = [ pkgs.pkg-config ];
+          buildInputs = [ pkgs.gtk3 ];
+          src = ./recently_use;
+        };
+
+        # TODO: pull in dependencies from the packages
         devShell = pkgs.mkShell {
-          inherit buildInputs;
-          nativeBuildInputs = nativeBuildInputs ++ [
-            rust_toolchain.default
+          nativeBuildInputs = [
+            (rust_toolchain.default.override {
+              extensions = [ "rust-src" "rustfmt" "rls" "clippy" ];
+            })
           ];
         };
       }

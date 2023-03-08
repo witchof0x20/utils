@@ -1,0 +1,21 @@
+[package]
+name = "yaru"
+version = "0.1.0"
+edition = "2021"
+description = "A command to run other commands based on a profile"
+authors = [ "Jade <jade@witchof.space>" ]
+license = "GPL-3.0-only"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+async-trait = "0.1.64"
+bluer = { version = "0.15.7", default-features = false, features = ["bluetoothd"]}
+clap = { version = "4.1.4", features = ["cargo", "derive"] }
+git2 = { version = "0.16.1", default-features = false }
+serde = { version = "1.0.152", features = ["derive"] }
+serde_with = { version = "2.2.0", default-features = false, features = ["macros"] }
+thiserror = "1.0.38"
+tokio = { version = "1.25.0", default-features = false, features = ["rt", "macros"] }
+toml = { version = "0.7.2", features = ["parse"], default-features = false }
+xdg = "2.4.1"
