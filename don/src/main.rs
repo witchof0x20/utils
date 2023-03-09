@@ -46,7 +46,7 @@ async fn main() -> Result<(), Error> {
                 .embeds(vec![Embed::fake(|e| {
                     let e = e.title("Alert");
                     let e = if args.everyone {
-                        e.field("mention", "@everyone", false)
+                        e.field("mention", "@everyone", true)
                     } else {
                         e
                     };
