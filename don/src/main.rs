@@ -19,7 +19,7 @@ struct Args {
     #[arg(short, long, env = "USER")]
     user: String,
     /// URL of the discord webhook
-    #[arg(env = "WEBHOOK_URL")]
+    #[arg(long, env = "WEBHOOK_URL")]
     webhook_url: String,
     /// Whether to ping everyone
     #[arg(short, long)]
