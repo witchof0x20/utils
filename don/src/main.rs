@@ -42,16 +42,18 @@ async fn main() -> Result<(), Error> {
     // Send the message over the webhook
     webhook
         .execute(&http, false, |w| {
-            w.username(format!("{}@{}", args.user, hostname))
-                .embeds(vec![Embed::fake(|e| {
-                    let e = e.title("Alert");
-                    let e = if args.everyone {
-                        e.field("mention", "@everyone", true)
-                    } else {
-                        e
-                    };
-                    e.field("message", &args.message, false)
-                })])
+            // Start by creating the embed, containing the message
+            let w = w.embeds(vec![Embed::fake(|e| {
+                e.title(&args.message)
+                    .field("user", &args.user, true)
+                    .field("host", &hostname, true)
+            })]);
+            // Add a ping to everyone (pings must be outside the embed)
+            if args.everyone {
+                w.content("@everyone")
+            } else {
+                w
+            }
         })
         .await?;
 
