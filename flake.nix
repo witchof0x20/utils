@@ -2,14 +2,8 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.11";
     flake-utils.url = "github:numtide/flake-utils";
-    rust-overlay = {
-      url = "github:oxalica/rust-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
-    };
-    naersk = {
-      url = "github:nix-community/naersk";
-    };
+    rust-overlay.url = "github:oxalica/rust-overlay";
+    naersk.url = "github:nix-community/naersk";
   };
 
   outputs = { self, nixpkgs, flake-utils, rust-overlay, naersk }:
