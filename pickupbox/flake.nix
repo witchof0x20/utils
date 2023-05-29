@@ -9,6 +9,7 @@
     };
     naersk = {
       url = "github:nix-community/naersk";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -24,36 +25,20 @@
           rustc = rust_toolchain.minimal;
           cargo = rust_toolchain.minimal;
         };
+        nativeBuildInputs = [ pkgs.pkg-config ];
+        buildInputs = [ ];
       in
       rec {
-        packages = {
-          recently_use = naersk'.buildPackage {
-            nativeBuildInputs = [ pkgs.pkg-config ];
-            buildInputs = [ pkgs.gtk3 ];
-            src = ./recently_use;
-          };
-          yaru = naersk'.buildPackage {
-            nativeBuildInputs = [ pkgs.pkg-config ];
-            buildInputs = [ pkgs.dbus ];
-            src = ./yaru;
-          };
-          don = naersk'.buildPackage {
-            nativeBuildInputs = [ pkgs.pkg-config ];
-            buildInputs = [ ];
-            src = ./don;
-          };
-        };
-        overlays.default = final: prev: {
-          yaru = packages.yaru;
-          don = packages.don;
-          recently_use = packages.recently_use;
+        defaultPackage = naersk'.buildPackage {
+          inherit nativeBuildInputs buildInputs;
+          src = ./.;
         };
 
-        # TODO: pull in dependencies from the packages
         devShell = pkgs.mkShell {
-          nativeBuildInputs = [
+          inherit buildInputs;
+          nativeBuildInputs = nativeBuildInputs ++ [
             (rust_toolchain.default.override {
-              extensions = [ "rust-src" "rustfmt" "rls" "clippy" ];
+              extensions = [ "rust-src" "rustfmt" "rust-analyzer" "clippy" ];
             })
           ];
         };
