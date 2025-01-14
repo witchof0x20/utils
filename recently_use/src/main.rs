@@ -31,7 +31,7 @@ enum MainError {
     #[error("Failed to convert the given path into a URI: {0}")]
     Uri(glib::Error),
     #[error("Failed to initialize gtk: {0}")]
-    GtkInit(glib::error::BoolError),
+    GtkInit(gtk::glib::BoolError),
     #[error("Failed to add item to RecentManager")]
     AddItem,
 }
